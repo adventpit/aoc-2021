@@ -14,7 +14,7 @@ const matrixSize = 1000
 
 func main() {
 	day := "05"
-	challengePart := "1"
+	challengePart := "2"
 	defer Duration(Track(fmt.Sprintf("Advent of Code challenge Day %s Part %s", day, challengePart)))
 	file, err := os.Open(fmt.Sprintf("%s/dev/training/aoc/aoc-2021/%s/input.txt", os.Getenv("HOME"), day))
 	if err != nil {
