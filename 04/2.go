@@ -12,7 +12,7 @@ import (
 
 func main() {
 	day := "04"
-	challengePart := "1"
+	challengePart := "2"
 	defer Duration(Track(fmt.Sprintf("Advent of Code challenge Day %s Part %s", day, challengePart)))
 	file, err := os.Open(fmt.Sprintf("%s/dev/training/aoc/aoc-2021/%s/input.txt", os.Getenv("HOME"), day))
 	if err != nil {
