@@ -68,7 +68,6 @@ func main() {
 			}
 			var basin [][2]int
 			basin = findBasinPositions(x, y, basin)
-			basin = unique(basin)
 			basinSize := len(basin)
 			if basinSize > threeMajorBasins[0] {
 				threeMajorBasins[0] = basinSize
@@ -77,8 +76,9 @@ func main() {
 		}
 	}
 
+	fmt.Println(threeMajorBasins)
 	multipliedBasins := threeMajorBasins[0] * threeMajorBasins[1] * threeMajorBasins[2]
-	fmt.Println("Multiplied basins: ", multipliedBasins)
+	fmt.Println("Multiplied basins:", multipliedBasins)
 
 	if err := scanner.Err(); err != nil {
 		fmt.Println(err)
@@ -87,45 +87,45 @@ func main() {
 
 func findBasinPositions(x int, y int, basin [][2]int) [][2]int {
 	value := caveMap[y][x]
-	basin = append(basin, [2]int{x, y})
-	if value == 8 {
+	if value > 8 {
 		return basin
 	}
+	basin = append(basin, [2]int{x, y})
+
 	if y > 0 {
-		if value+1 == caveMap[y-1][x] {
+		position := [2]int{x, y - 1}
+		if value <= caveMap[y-1][x] && !contains(basin, position) {
 			basin = findBasinPositions(x, y-1, basin)
 		}
 	}
 	if y < yLength-1 {
-		if value+1 == caveMap[y+1][x] {
+		position := [2]int{x, y + 1}
+		if value <= caveMap[y+1][x] && !contains(basin, position) {
 			basin = findBasinPositions(x, y+1, basin)
 		}
 	}
 	if x > 0 {
-		if value+1 == caveMap[y][x-1] {
+		position := [2]int{x - 1, y}
+		if value <= caveMap[y][x-1] && !contains(basin, position) {
 			basin = findBasinPositions(x-1, y, basin)
 		}
 	}
 	if x < xLength-1 {
-		if value+1 == caveMap[y][x+1] {
+		position := [2]int{x + 1, y}
+		if value <= caveMap[y][x+1] && !contains(basin, position) {
 			basin = findBasinPositions(x+1, y, basin)
 		}
 	}
 	return basin
 }
 
-func unique(arr [][2]int) [][2]int {
-	occurred := map[[2]int]bool{}
-	result := [][2]int{}
-	for e := range arr {
-		if occurred[arr[e]] != true {
-			occurred[arr[e]] = true
-
-			result = append(result, arr[e])
+func contains(elems [][2]int, v [2]int) bool {
+	for _, s := range elems {
+		if v == s {
+			return true
 		}
 	}
-
-	return result
+	return false
 }
 
 func Track(msg string) (string, time.Time) {
